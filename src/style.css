@@ -1,0 +1,23 @@
+:root {
+  --primary-light-color: #FFFFFF;
+  --primary-base-color: #FFFFFF;
+  --primary-dark-color: #FFFFFF;
+  --background-light-color: #000000;
+  --background-base-color: #000000;
+  --background-dark-color: #000000;
+  --secondary-light-color: #000000;
+  --secondary-base-color: #000000;
+  --secondary-dark-color: #000000;
+  --accent-2-light-color: #000000;
+  --accent-2-base-color: #000000;
+  --accent-2-dark-color: #000000;
+  --accent-1-light-color: #000000;
+  --accent-1-base-color: #000000;
+  --accent-1-dark-color: #000000;
+  }
+
+/* @tailwind base;
+
+@tailwind components;
+
+@tailwind utilities; */

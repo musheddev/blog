@@ -1,0 +1,37 @@
+source https://api.nuget.org/v3/index.json
+framework: netstandard2.0
+storage: none
+
+nuget Fable.Core ~> 3
+nuget Fable.Elmish ~> 3
+nuget Fable.Elmish.Debugger ~> 3
+nuget Fable.Elmish.HMR ~> 4
+nuget Fable.Elmish.React ~> 3
+nuget Feliz
+nuget Thoth.Fetch ~> 1
+nuget Fable.React ~> 5
+nuget Flora.CssProvider 0.7.1
+
+nuget Fake.Core.ReleaseNotes
+nuget Fake.Core.Target
+nuget Fake.DotNet.Cli
+nuget Fake.IO.FileSystem
+nuget Fake.Tools.Git
+nuget Fake.DotNet.AssemblyInfoFile
+nuget Fake.Api.GitHub
+nuget BlackFox.Fake.BuildTask
+
+group Build
+    source https://api.nuget.org/v3/index.json
+    framework: netcoreapp3.0
+    storage: none
+
+    nuget FSharp.Core
+    nuget Fake.Core.ReleaseNotes
+    nuget Fake.Core.Target
+    nuget Fake.DotNet.Cli
+    nuget Fake.IO.FileSystem
+    nuget Fake.Tools.Git
+    nuget Fake.DotNet.AssemblyInfoFile
+    nuget Fake.Api.GitHub
+    nuget BlackFox.Fake.BuildTask
