@@ -21,9 +21,6 @@ let main argv =
 
     Target.initEnvironment ()
 
-    let tempDocsDir = "musheddev.github.io2"
-    let deployDir = Path.getFullName "./deploy"
-
     let release = Fake.Core.ReleaseNotes.load "RELEASE_NOTES.md"
 
     let platformTool tool winTool =
@@ -57,12 +54,6 @@ let main argv =
         |> Proc.run
         |> ignore
 
-
-    let clean = BuildTask.createFn "Clean" [] (fun _ ->
-        [ deployDir]
-        |> Shell.cleanDirs
-    )
-
     let installClient = BuildTask.createFn "InstallClient" [] (fun _ ->
         printfn "Node version:"
         runTool nodeTool "--version" __SOURCE_DIRECTORY__
@@ -71,11 +62,11 @@ let main argv =
         runTool yarnTool "install --frozen-lockfile" __SOURCE_DIRECTORY__
     )
 
-    let build = BuildTask.createFn "Build" [clean; installClient] (fun _ ->
+    let build = BuildTask.createFn "Build" [installClient] (fun _ ->
         runTool yarnTool "webpack-cli -p" __SOURCE_DIRECTORY__
     )
 
-    let run = BuildTask.createFn "Run" [clean; installClient] (fun _ ->
+    let run = BuildTask.createFn "Run" [installClient] (fun _ ->
         let client = async {
             runTool yarnTool "webpack-dev-server" __SOURCE_DIRECTORY__
         }
@@ -96,20 +87,13 @@ let main argv =
         |> ignore
     )
 
-    let releaseSite = BuildTask.createFn "ReleaseSite" [build] (fun _ ->
+    let releaseSite = BuildTask.createFn "Deploy" [build] (fun _ ->
+        Shell.copyFile "Site/activeparsers.html" "Site/index.html"
+        Shell.copyFile "Site/theming.html" "Site/index.html" 
         async {
             runTool yarnTool "gh-pages -d Site" __SOURCE_DIRECTORY__
         } |> Async.RunSynchronously
-        // Shell.deleteDir tempDocsDir
-        // Repository.cloneSingleBranch "" "https://github.com/musheddev/musheddev.github.io.git" "master" tempDocsDir
-
-        // Shell.copyRecursive "Site" tempDocsDir true |> Trace.tracefn "%A"
-        // Git.Staging.stageAll tempDocsDir
-        // Git.Commit.exec tempDocsDir (sprintf "Update generated site for version %s" release.NugetVersion)
-        // Branches.push tempDocsDir
     )
-
-
 
     BuildTask.runOrDefault build
     0 // return an integer exit code
